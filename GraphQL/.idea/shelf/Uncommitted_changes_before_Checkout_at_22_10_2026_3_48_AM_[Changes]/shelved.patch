@@ -1,0 +1,55 @@
+Index: ../Gestion_UE_Etudiant/src/main/java/webservices/UniteEnsRestApi.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../Gestion_UE_Etudiant/src/main/java/webservices/UniteEnsRestApi.java b/../Gestion_UE_Etudiant/src/main/java/webservices/UniteEnsRestApi.java
+new file mode 100644
+--- /dev/null	(date 1791430184513)
++++ b/../Gestion_UE_Etudiant/src/main/java/webservices/UniteEnsRestApi.java	(date 1791430184513)
+@@ -0,0 +1,45 @@
++package webservices;
++
++import entities.UniteEnseignement;
++import metiers.UniteEnseignementBusiness;
++
++import javax.ws.rs.*;
++import javax.ws.rs.core.MediaType;
++import javax.ws.rs.core.Response;
++
++@Path("/ue")
++public class UniteEnsRestApi {
++    static UniteEnseignementBusiness helper = new UniteEnseignementBusiness();
++    @Path("/list")
++    @GET
++    @Produces(MediaType.APPLICATION_JSON)  // The response will be returned as plain text
++    public Response getListUE() {
++        // Build an HTTP 200 (OK) response with the message "Hello World!"
++        return Response
++                .status(200)                  // HTTP status code 200 = success
++                .entity(helper.getListeUE())       // The body of the response
++                .build();                     // Builds the final Response object
++    }
++    @Path("/add")
++    @POST
++    @Consumes(MediaType.APPLICATION_JSON)
++    @Produces(MediaType.TEXT_PLAIN)
++    public Response addUe(UniteEnseignement ue) {
++        if (helper.addUniteEnseignement(ue)) {
++            return Response.status(201).entity("Created").build();
++        }
++        else {
++            return Response.status(400).entity("Erreur").build();
++        }
++        }
++        @GET
++    @Produces(MediaType.APPLICATION_JSON)
++    @Path("/{code}")
++    public Response getUEByCode(@PathParam("code") int code) {
++        return Response.status(200)
++                .entity(helper.getUEByCode(code))
++            .build();
++        }
++    }
++
++
